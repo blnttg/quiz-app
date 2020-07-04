@@ -1,8 +1,9 @@
 import { createStore, combineReducers } from 'redux'
-import { questionReducer } from './reducers'
+import { questionReducer, gameReducer } from './reducers'
 
 const rootReducer = combineReducers({
 	questionStore: questionReducer,
+	gameStore: gameReducer,
 })
 
 const store = createStore(rootReducer)

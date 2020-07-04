@@ -18,3 +18,7 @@ export const removeQuestion = (id) => ({
 		id,
 	},
 })
+
+export const addScore = () => ({
+	type: actions.SCORE_ADD,
+})
