@@ -6,7 +6,7 @@ export const questionReducer = (state = [], action) => {
 			return [
 				...state,
 				{
-					id: action.payload.id,
+					id: state.length,
 					question: action.payload.question,
 					correct: action.payload.correct,
 					answers: [action.payload.correct, ...action.payload.rest],

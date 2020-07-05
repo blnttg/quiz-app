@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useEffect, useMemo } from 'react'
+import React, { useState, useMemo } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { addScore } from '../app/actions'
 import Question from '../components/Question'
@@ -16,6 +16,7 @@ const shuffle = (array) => {
 	return array
 }
 
+// TODO: clean up the code
 const Game = (props) => {
 	const score = useSelector((state) => state.gameStore.current.score)
 	const questions = useSelector((state) => state.questionStore)
@@ -53,14 +54,17 @@ const Game = (props) => {
 	}
 
 	return (
-		<div className="flex flex-col justify-content items-center w-full md:w-11/12 select-none">
-			<span>score: {score}</span>
+		<div className="flex flex-col justify-content items-center w-full d:w-11/12 select-none">
+			{/* TODO: bring the question progress here */}
+			<p className="m-1 p-1 text-xl text-gray-600 font-bold">
+				score: <span className="text-gray-700">{score}</span>
+			</p>
 			<Question
 				currentIndex={questionID + 1}
 				numOfQuestions={shuffledQuestions.length}
 				value={currentQuestion}
 			/>
-			<div className="w-10/12 md:w-4/6">
+			<div className="w-5/6 md:w-4/6">
 				{currentAnswers.map((value, index) => (
 					<Answer
 						key={index}
@@ -70,11 +74,13 @@ const Game = (props) => {
 				))}
 			</div>
 			{answered && (
-				<Button onClick={() => handleNextMove()}>
-					{questionID === shuffledQuestions.length - 1
-						? 'Finish'
-						: 'Next'}
-				</Button>
+				<div className="max-w-2xl">
+					<Button onClick={() => handleNextMove()}>
+						{questionID === shuffledQuestions.length - 1
+							? 'Finish'
+							: 'Next'}
+					</Button>
+				</div>
 			)}
 		</div>
 	)

@@ -1,56 +1,21 @@
-import React, { useState } from 'react'
-import { useSelector, useDispatch } from 'react-redux'
-import EditableQuestion from '../components/EditableQuestion'
-import { removeQuestion, addQuestion } from '../app/actions'
-import InputText from '../components/InputText'
-import Button from '../components/Button'
-
-const useInputValue = (initialValue) => {
-	const [value, setValue] = useState(initialValue)
-
-	return {
-		value,
-		onChange: (e) => setValue(e.target.value),
-	}
-}
+import React from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import { removeQuestion } from '../app/actions'
+import QuestionListItem from '../components/QuestionListItem'
+import { QuestionForm } from './QuestionForm'
 
 const Editor = (props) => {
 	const questions = useSelector((state) => state.questionStore)
 	const dispatch = useDispatch()
 
-	const questionInput = useInputValue('')
-	const correctAnswerInput = useInputValue('')
-	const wrongAnswer1Input = useInputValue('')
-	const wrongAnswer2Input = useInputValue('')
-	const wrongAnswer3Input = useInputValue('')
-
-	const showAnswers = (id) => {}
-
-	const handleAddQuestion = () => {
-		const answers = [
-			correctAnswerInput.value,
-			wrongAnswer1Input.value,
-			wrongAnswer2Input.value,
-			wrongAnswer3Input.value,
-		]
-		console.log('handling')
-		if (!answers.includes('')) {
-			console.log('added')
-			dispatch(
-				addQuestion(
-					questionInput.value,
-					answers[0],
-					answers.slice(1, answers.length)
-				)
-			)
-		}
-	}
-
 	return (
-		<div>
+		<div className="flex flex-col mx-auto w-full max-w-4xl">
+			<h1 className="text-3xl text-gray-800 font-bold m-1 py-2 px-1">
+				Question Manager
+			</h1>
 			{questions.map((question) => {
 				return (
-					<EditableQuestion
+					<QuestionListItem
 						key={question.id}
 						question={question.question}
 						correct={question.correct}
@@ -58,18 +23,11 @@ const Editor = (props) => {
 							(q) => q !== question.correct
 						)}
 						onDelete={() => dispatch(removeQuestion(question.id))}
-						onClick={() => showAnswers(question.id)}
+						// onClick={() => showAnswers(question.id)}
 					/>
 				)
 			})}
-			<div className="flex flex-col">
-				<InputText label="Question" {...questionInput} />
-				<InputText label="Correct Answer" {...correctAnswerInput} />
-				<InputText label="Wrong Answer #1" {...wrongAnswer1Input} />
-				<InputText label="Wrong Answer #2" {...wrongAnswer2Input} />
-				<InputText label="Wrong Answer #3" {...wrongAnswer3Input} />
-				<Button onClick={() => handleAddQuestion()}>Add</Button>
-			</div>
+			<QuestionForm />
 		</div>
 	)
 }

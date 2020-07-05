@@ -1,11 +1,11 @@
 import * as actions from './actionTypes'
-
-let questionID = 0
+// import { loadState } from '../utils'
+// let questionID = loadState('questionID') || 0
 
 export const addQuestion = (question, correct, rest) => ({
 	type: actions.QUESTION_ADD,
 	payload: {
-		id: questionID++,
+		// id: questionID++,
 		question,
 		correct,
 		rest,
@@ -21,4 +21,11 @@ export const removeQuestion = (id) => ({
 
 export const addScore = () => ({
 	type: actions.SCORE_ADD,
+})
+
+export const setPlayer = (player) => ({
+	type: actions.SET_PLAYER,
+	payload: {
+		player,
+	},
 })
