@@ -53,7 +53,7 @@ const Game = (props) => {
 	}
 
 	return (
-		<div className="flex flex-col justify-content items-center w-full md:w-11/12">
+		<div className="flex flex-col justify-content items-center w-full md:w-11/12 select-none">
 			<span>score: {score}</span>
 			<Question
 				currentIndex={questionID + 1}
