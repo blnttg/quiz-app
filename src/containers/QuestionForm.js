@@ -50,7 +50,7 @@ export const QuestionForm = () => {
 	return (
 		<div
 			id="form"
-			className="flex flex-col m-1 p-3 rounded-lg border-2 border-gray-400"
+			className="flex flex-col mx-1 my-2 p-3 rounded-lg border-2 border-gray-400"
 		>
 			<h2 className="md:m-1 py-2 px-1 text-xl md:text-2xl font-bold text-gray-800">
 				Add a new question!

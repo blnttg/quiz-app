@@ -4,7 +4,9 @@ const Button = (props) => {
 	return (
 		<button
 			id={props.id}
-			className="w-full mx-1 my-2 py-3 px-4 bg-gray-500 hover:bg-gray-600 rounded-lg cursor-pointer"
+			className={`w-full mx-1 my-2 py-3 px-4 bg-gray-500 hover:bg-gray-600 rounded-lg cursor-pointer ${
+				props.invisible ? 'invisible' : 'visible'
+			}`}
 			onClick={props.onClick}
 			onSubmit={props.onSubmit}
 		>

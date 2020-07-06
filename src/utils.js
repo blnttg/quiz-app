@@ -50,6 +50,8 @@ export const animateCSS = (element, animation, duration, delay) => {
 			delay && animationDelay
 		)
 
+		// node.style.setProperty('--animate-delay', `${delay}s`)
+
 		// When the animation ends, we clean the classes and resolve the Promise
 		const handleAnimationEnd = () => {
 			node.classList.remove(`${prefix}animated`, animationName)

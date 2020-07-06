@@ -13,6 +13,7 @@ import GameHeader from '../components/GameHeader'
 const Game = () => {
 	const { score, player } = useSelector((state) => state.gameStore.current)
 	const _questions = useSelector((state) => state.questionStore)
+
 	const questions = useMemo(
 		() =>
 			shuffle(
@@ -27,23 +28,13 @@ const Game = () => {
 	const dispatch = useDispatch()
 	const [questionID, setQuestionID] = useState(0)
 	const [answered, setAnswered] = useState(false)
+	const [firstQuestion, setFirstQuestion] = useState(true)
 
-	const initializeGame = () => {
-		dispatch(resetScore())
-		console.log('init')
-	}
+	const correctTransition = ['transition', 'bg-green-600']
+	const wrongTransition = ['transition', 'bg-orange-600']
 
-	const setCorrectAndWrongAnswers = (node, correct) => {
-		const correctTransition = ['transition', 'bg-green-600']
-		const wrongTransition = ['transition', 'bg-orange-600']
-
-		// const node = document.querySelector(element)
-
-		// if (removeTransition) {
-		// 	node.classList.remove(...correctTransition, ...wrongTransition)
-		// 	return
-		// }
-
+	const setCorrectAndWrongAnswers = (selector, correct) => {
+		const node = document.querySelector(selector)
 		if (correct) {
 			node.classList.add(...correctTransition)
 		} else {
@@ -51,39 +42,42 @@ const Game = () => {
 		}
 	}
 
+	const resetCorrectAndWrongAnswers = (parentSelector) => {
+		const answers = document.querySelector(parentSelector).childNodes
+		for (const answer in answers) {
+			answer.classList &&
+				answer.classList.remove(
+					...correctTransition,
+					...wrongTransition
+				)
+		}
+	}
+
 	// FIXME: show correct (and wrong answer) with animation
 	const handleChoice = (index) => {
 		const answers = questions[questionID].answers
 		const correct = questions[questionID].correct
-		const selectedElement = document.querySelector(`#answer${index}`)
-		const correctElement = document.querySelector(
-			`#answer${answers.indexOf(correct)}`
-		)
-		// correctElement.classList.add(...correctTransition)
+		const choiceSelector = `#answer${index}`
+		const correctSelector = `#answer${answers.indexOf(correct)}`
 		if (answers[index] === questions[questionID].correct) {
-			setCorrectAndWrongAnswers(correctElement, true)
-			// selectedElement.classList.add('bg-green-600')
+			setCorrectAndWrongAnswers(choiceSelector, true)
 			animateCSS(`#answer${index}`, 'flash', 'slow').then(() => {
-				// selectedElement.classList.remove('bg-green-600')
 				dispatch(addScore())
 			})
-			// console.log('good one')
 		} else {
-			setCorrectAndWrongAnswers(selectedElement, false)
-			// animateCSS(`#answer${answers.indexOf(correct)}`, 'flash')
-			// correctElement.classList.add('bg-green-600')
-			// selectedElement.classList.add('bg-orange-600')
+			setCorrectAndWrongAnswers(choiceSelector, false)
+			setCorrectAndWrongAnswers(correctSelector, true)
 		}
 		setAnswered(true)
+		animateCSS('#next', 'fadeIn')
 	}
 
 	const handleNextMove = () => {
+		animateCSS('#gameArea', 'fadeOut', 'faster')
 		setAnswered(false)
 		if (questionID < questions.length - 1) {
+			resetCorrectAndWrongAnswers('#answers')
 			setQuestionID(questionID + 1)
-			// questions[questionID].answers.forEach((x, index) =>
-			// 	setCorrectAndWrongAnswers(`#answer${index}`, null, true)
-			// )
 			animateCSS('#question', 'lightSpeedInLeft')
 			animateCSS('#answers', 'fadeIn', null, 2)
 		} else {
@@ -94,8 +88,9 @@ const Game = () => {
 
 	useEffect(() => {
 		if (player !== '' && Array.isArray(questions) && questions.length) {
-			// FIXME: hide before animation
-			initializeGame()
+			setFirstQuestion(false)
+			dispatch(resetScore())
+			// animateCSS('#gameHeader', 'slideInDown', 'fast', 1)
 			animateCSS('#question', 'lightSpeedInLeft')
 			animateCSS('#answers', 'fadeIn', null, 2)
 		} else {
@@ -105,9 +100,16 @@ const Game = () => {
 	}, [])
 
 	return (
-		<div className="flex flex-col items-center w-full h-screen select-none">
-			<GameHeader player={player} score={score} />
-			<div className="flex flex-col items-center justify-center w-full h-full">
+		<div className="flex flex-col items-center justify-center w-full h-screen select-none">
+			{!firstQuestion && (
+				<GameHeader id="gameHeader" player={player} score={score} />
+			)}
+			<div
+				id="gameArea"
+				className={`flex flex-col items-center justify-center w-full h-full ${
+					firstQuestion ? 'invisible' : 'visible'
+				}`}
+			>
 				{questions && questions[questionID] && (
 					<Question
 						id="question"
@@ -122,24 +124,20 @@ const Game = () => {
 								id={`answer${index}`}
 								key={index}
 								value={value}
-								disabled={answered}
 								onClick={() => !answered && handleChoice(index)}
 							/>
 						))}
 				</div>
-				{/*  TODO: better fade in */}
-				{answered && (
-					<div
-						id="next"
-						className="max-w-2xl animate__animated animate__fadeIn"
+				<div id="next">
+					<Button
+						onClick={() => handleNextMove()}
+						invisible={!answered}
 					>
-						<Button onClick={() => handleNextMove()}>
-							{questionID === questions.length - 1
-								? 'Finish'
-								: 'Next'}
-						</Button>
-					</div>
-				)}
+						{questionID === questions.length - 1
+							? 'Finish'
+							: 'Next'}
+					</Button>
+				</div>
 			</div>
 		</div>
 	)

@@ -13,7 +13,7 @@ const HeaderItem = (props) => {
 
 const GameHeader = (props) => {
 	return (
-		<div className="flex items-center justify-around">
+		<div id={props.id} className="flex items-center justify-around">
 			<HeaderItem name="player" value={props.player} />
 			<HeaderItem name="score" value={props.score} />
 		</div>
