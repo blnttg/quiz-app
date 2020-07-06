@@ -33,6 +33,20 @@ const Game = () => {
 	const correctTransition = ['transition', 'bg-green-600']
 	const wrongTransition = ['transition', 'bg-orange-600']
 
+	const toggleDisableHover = (parentSelector, toggle) => {
+		const hoverBgColor = 'hover:bg-purple-900'
+		const answerNodes = document.querySelector(parentSelector).childNodes
+
+		for (let i = 0; i < answerNodes.length; i++) {
+			const answerNode = answerNodes[i]
+			if (toggle) {
+				answerNode.classList.add(hoverBgColor)
+			} else {
+				answerNode.classList.remove(hoverBgColor)
+			}
+		}
+	}
+
 	const setCorrectAndWrongAnswers = (selector, correct) => {
 		const node = document.querySelector(selector)
 		if (correct) {
@@ -43,38 +57,42 @@ const Game = () => {
 	}
 
 	const resetCorrectAndWrongAnswers = (parentSelector) => {
-		const answers = document.querySelector(parentSelector).childNodes
-		for (const answer in answers) {
-			answer.classList &&
-				answer.classList.remove(
-					...correctTransition,
-					...wrongTransition
-				)
+		const answerNodes = document.querySelector(parentSelector).childNodes
+		for (let i = 0; i < answerNodes.length; i++) {
+			const answerNode = answerNodes[i]
+			answerNode.classList.remove(
+				...correctTransition,
+				...wrongTransition
+			)
 		}
 	}
 
-	// FIXME: show correct (and wrong answer) with animation
 	const handleChoice = (index) => {
 		const answers = questions[questionID].answers
 		const correct = questions[questionID].correct
 		const choiceSelector = `#answer${index}`
 		const correctSelector = `#answer${answers.indexOf(correct)}`
 		if (answers[index] === questions[questionID].correct) {
-			setCorrectAndWrongAnswers(choiceSelector, true)
-			animateCSS(`#answer${index}`, 'flash', 'slow').then(() => {
+			animateCSS(choiceSelector, 'flash', 'slow').then(() => {
+				setCorrectAndWrongAnswers(choiceSelector, true)
 				dispatch(addScore())
 			})
 		} else {
-			setCorrectAndWrongAnswers(choiceSelector, false)
-			setCorrectAndWrongAnswers(correctSelector, true)
+			animateCSS(choiceSelector, 'flash', 'slow').then(() => {
+				animateCSS(correctSelector, 'pulse', 'fast')
+				setCorrectAndWrongAnswers(correctSelector, true)
+				setCorrectAndWrongAnswers(choiceSelector, false)
+			})
 		}
 		setAnswered(true)
-		animateCSS('#next', 'fadeIn')
+		toggleDisableHover('#answers', answered)
+		animateCSS('#next', 'fadeIn', 'slower', 2)
 	}
 
 	const handleNextMove = () => {
 		animateCSS('#gameArea', 'fadeOut', 'faster')
 		setAnswered(false)
+
 		if (questionID < questions.length - 1) {
 			resetCorrectAndWrongAnswers('#answers')
 			setQuestionID(questionID + 1)
@@ -84,6 +102,7 @@ const Game = () => {
 			navigate('/finish')
 			setAnswered(true)
 		}
+		toggleDisableHover('#answers', answered)
 	}
 
 	useEffect(() => {
@@ -124,6 +143,7 @@ const Game = () => {
 								id={`answer${index}`}
 								key={index}
 								value={value}
+								disabled={answered}
 								onClick={() => !answered && handleChoice(index)}
 							/>
 						))}
