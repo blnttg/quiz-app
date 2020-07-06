@@ -1,5 +1,6 @@
 import React from 'react'
 
+// TODO: delete if unnecessary
 const EditableAnswer = (props) => {
 	return (
 		<div

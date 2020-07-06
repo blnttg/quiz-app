@@ -1,87 +1,146 @@
-import React, { useState, useMemo } from 'react'
+import React, { useState, useMemo, useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { addScore } from '../app/actions'
+import { navigate } from '@reach/router'
+import { addScore, resetScore } from '../app/actions'
 import Question from '../components/Question'
 import Answer from '../components/Answer'
 import Button from '../components/Button'
-
-// Fisher-Yates Algorithm
-const shuffle = (array) => {
-	for (let i = array.length - 1; i > 0; i--) {
-		const j = Math.floor(Math.random() * i)
-		const temp = array[i]
-		array[i] = array[j]
-		array[j] = temp
-	}
-	return array
-}
+import { animateCSS, shuffle } from '../utils'
+import GameHeader from '../components/GameHeader'
 
 // TODO: clean up the code
-const Game = (props) => {
-	const score = useSelector((state) => state.gameStore.current.score)
-	const questions = useSelector((state) => state.questionStore)
+// TODO: save highscore (optional)
+const Game = () => {
+	const { score, player } = useSelector((state) => state.gameStore.current)
+	const _questions = useSelector((state) => state.questionStore)
+	const questions = useMemo(
+		() =>
+			shuffle(
+				_questions.map((question) => ({
+					...question,
+					answers: shuffle(question.answers),
+				}))
+			),
+		[_questions]
+	)
+
 	const dispatch = useDispatch()
 	const [questionID, setQuestionID] = useState(0)
 	const [answered, setAnswered] = useState(false)
 
-	const shuffledQuestions = useMemo(() => {
-		return shuffle(questions)
-	}, [questions])
-	const currentQuestion = shuffledQuestions[questionID].question
+	const initializeGame = () => {
+		dispatch(resetScore())
+		console.log('init')
+	}
 
-	const _currentAnswers = shuffledQuestions[questionID].answers
-	const currentAnswers = useMemo(() => {
-		return shuffle(_currentAnswers)
-	}, [_currentAnswers])
+	const setCorrectAndWrongAnswers = (node, correct) => {
+		const correctTransition = ['transition', 'bg-green-600']
+		const wrongTransition = ['transition', 'bg-orange-600']
 
-	const handleChoice = (value) => {
-		if (value === shuffledQuestions[questionID].correct) {
-			dispatch(addScore())
-			console.log('good one')
+		// const node = document.querySelector(element)
+
+		// if (removeTransition) {
+		// 	node.classList.remove(...correctTransition, ...wrongTransition)
+		// 	return
+		// }
+
+		if (correct) {
+			node.classList.add(...correctTransition)
 		} else {
-			console.log('wrong')
+			node.classList.add(...wrongTransition)
+		}
+	}
+
+	// FIXME: show correct (and wrong answer) with animation
+	const handleChoice = (index) => {
+		const answers = questions[questionID].answers
+		const correct = questions[questionID].correct
+		const selectedElement = document.querySelector(`#answer${index}`)
+		const correctElement = document.querySelector(
+			`#answer${answers.indexOf(correct)}`
+		)
+		// correctElement.classList.add(...correctTransition)
+		if (answers[index] === questions[questionID].correct) {
+			setCorrectAndWrongAnswers(correctElement, true)
+			// selectedElement.classList.add('bg-green-600')
+			animateCSS(`#answer${index}`, 'flash', 'slow').then(() => {
+				// selectedElement.classList.remove('bg-green-600')
+				dispatch(addScore())
+			})
+			// console.log('good one')
+		} else {
+			setCorrectAndWrongAnswers(selectedElement, false)
+			// animateCSS(`#answer${answers.indexOf(correct)}`, 'flash')
+			// correctElement.classList.add('bg-green-600')
+			// selectedElement.classList.add('bg-orange-600')
 		}
 		setAnswered(true)
 	}
 
 	const handleNextMove = () => {
 		setAnswered(false)
-		if (questionID < shuffledQuestions.length - 1) {
+		if (questionID < questions.length - 1) {
 			setQuestionID(questionID + 1)
+			// questions[questionID].answers.forEach((x, index) =>
+			// 	setCorrectAndWrongAnswers(`#answer${index}`, null, true)
+			// )
+			animateCSS('#question', 'lightSpeedInLeft')
+			animateCSS('#answers', 'fadeIn', null, 2)
 		} else {
-			console.log('no more question')
+			navigate('/finish')
+			setAnswered(true)
 		}
 	}
 
+	useEffect(() => {
+		if (player !== '' && Array.isArray(questions) && questions.length) {
+			// FIXME: hide before animation
+			initializeGame()
+			animateCSS('#question', 'lightSpeedInLeft')
+			animateCSS('#answers', 'fadeIn', null, 2)
+		} else {
+			navigate('/')
+		}
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, [])
+
 	return (
-		<div className="flex flex-col justify-content items-center w-full d:w-11/12 select-none">
-			{/* TODO: bring the question progress here */}
-			<p className="m-1 p-1 text-xl text-gray-600 font-bold">
-				score: <span className="text-gray-700">{score}</span>
-			</p>
-			<Question
-				currentIndex={questionID + 1}
-				numOfQuestions={shuffledQuestions.length}
-				value={currentQuestion}
-			/>
-			<div className="w-5/6 md:w-4/6">
-				{currentAnswers.map((value, index) => (
-					<Answer
-						key={index}
-						value={value}
-						onClick={() => !answered && handleChoice(value)}
+		<div className="flex flex-col items-center w-full h-screen select-none">
+			<GameHeader player={player} score={score} />
+			<div className="flex flex-col items-center justify-center w-full h-full">
+				{questions && questions[questionID] && (
+					<Question
+						id="question"
+						value={questions[questionID].question}
 					/>
-				))}
-			</div>
-			{answered && (
-				<div className="max-w-2xl">
-					<Button onClick={() => handleNextMove()}>
-						{questionID === shuffledQuestions.length - 1
-							? 'Finish'
-							: 'Next'}
-					</Button>
+				)}
+				<div id="answers" className="w-5/6 md:w-4/6">
+					{questions &&
+						questions[questionID] &&
+						questions[questionID].answers.map((value, index) => (
+							<Answer
+								id={`answer${index}`}
+								key={index}
+								value={value}
+								disabled={answered}
+								onClick={() => !answered && handleChoice(index)}
+							/>
+						))}
 				</div>
-			)}
+				{/*  TODO: better fade in */}
+				{answered && (
+					<div
+						id="next"
+						className="max-w-2xl animate__animated animate__fadeIn"
+					>
+						<Button onClick={() => handleNextMove()}>
+							{questionID === questions.length - 1
+								? 'Finish'
+								: 'Next'}
+						</Button>
+					</div>
+				)}
+			</div>
 		</div>
 	)
 }

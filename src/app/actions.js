@@ -23,6 +23,10 @@ export const addScore = () => ({
 	type: actions.SCORE_ADD,
 })
 
+export const resetScore = () => ({
+	type: actions.SCORE_RESET,
+})
+
 export const setPlayer = (player) => ({
 	type: actions.SET_PLAYER,
 	payload: {

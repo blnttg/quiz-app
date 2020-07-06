@@ -1,4 +1,5 @@
 import * as actions from './actionTypes'
+import { v4 as uuidv4 } from 'uuid'
 
 export const questionReducer = (state = [], action) => {
 	switch (action.type) {
@@ -6,7 +7,7 @@ export const questionReducer = (state = [], action) => {
 			return [
 				...state,
 				{
-					id: state.length,
+					id: uuidv4(),
 					question: action.payload.question,
 					correct: action.payload.correct,
 					answers: [action.payload.correct, ...action.payload.rest],
@@ -21,11 +22,12 @@ export const questionReducer = (state = [], action) => {
 
 const gameInitialState = {
 	current: {
+		player: '',
 		score: 0,
 	},
-	leaderboard: [],
+	// leaderboard: [],
 }
-
+// TODO: implement leaderboard / highscore saving (optional)
 export const gameReducer = (state = gameInitialState, action) => {
 	switch (action.type) {
 		case actions.SET_PLAYER:
@@ -42,6 +44,14 @@ export const gameReducer = (state = gameInitialState, action) => {
 				current: {
 					...state.current,
 					score: state.current.score + 1,
+				},
+			}
+		case actions.SCORE_RESET:
+			return {
+				...state,
+				current: {
+					...state.current,
+					score: 0,
 				},
 			}
 		default:

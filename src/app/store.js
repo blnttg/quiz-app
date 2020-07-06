@@ -1,6 +1,7 @@
 import { createStore, combineReducers } from 'redux'
 import { questionReducer, gameReducer } from './reducers'
 
+// TODO: move to utils (or not)
 const loadState = () => {
 	try {
 		const serializedState = localStorage.getItem('state')

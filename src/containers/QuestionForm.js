@@ -3,6 +3,7 @@ import { useDispatch } from 'react-redux'
 import { addQuestion } from '../app/actions'
 import InputText from '../components/InputText'
 import Button from '../components/Button'
+import { animateCSS } from '../utils'
 
 const useInput = (initialValue) => {
 	const [value, setValue] = useState(initialValue)
@@ -13,7 +14,7 @@ const useInput = (initialValue) => {
 	}
 }
 
-// FIXME: better structuring
+// TODO: form validation (now with headshake animation)
 export const QuestionForm = () => {
 	const dispatch = useDispatch()
 
@@ -41,12 +42,17 @@ export const QuestionForm = () => {
 				)
 			)
 			questionInput.value = ''
+		} else {
+			animateCSS('#form', 'headShake', 'fast')
 		}
 	}
 
 	return (
-		<div className="flex flex-col m-1 p-3 rounded-lg border-2 border-gray-400">
-			<h2 className="m-1 p-1 text-2xl font-bold text-gray-800">
+		<div
+			id="form"
+			className="flex flex-col m-1 p-3 rounded-lg border-2 border-gray-400"
+		>
+			<h2 className="md:m-1 py-2 px-1 text-xl md:text-2xl font-bold text-gray-800">
 				Add a new question!
 			</h2>
 			<InputText label="Question" {...questionInput} />

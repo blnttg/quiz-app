@@ -1,3 +1,5 @@
+// TODO: cleanup
+
 import { useState } from 'react'
 
 export const loadState = (key) => localStorage.getItem(key) || undefined
@@ -29,4 +31,33 @@ export const useInput = (initialValue) => {
 		value,
 		onChange: (e) => setValue(e.target.value),
 	}
+}
+
+export const animateCSS = (element, animation, duration, delay) => {
+	const prefix = 'animate__'
+
+	// We create a Promise and return it
+	return new Promise((resolve, reject) => {
+		const animationName = `${prefix}${animation}`
+		const animationDuration = `${prefix}${duration}`
+		const animationDelay = `${prefix}delay-${delay}s`
+		const node = document.querySelector(element)
+
+		node.classList.add(
+			`${prefix}animated`,
+			animationName,
+			duration && animationDuration,
+			delay && animationDelay
+		)
+
+		// When the animation ends, we clean the classes and resolve the Promise
+		const handleAnimationEnd = () => {
+			node.classList.remove(`${prefix}animated`, animationName)
+			node.removeEventListener('animationend', handleAnimationEnd)
+
+			resolve('Animation ended')
+		}
+
+		node.addEventListener('animationend', handleAnimationEnd)
+	})
 }

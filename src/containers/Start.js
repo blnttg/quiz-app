@@ -2,13 +2,25 @@ import React from 'react'
 import InputText from '../components/InputText'
 import Button from '../components/Button'
 import { navigate } from '@reach/router'
-import { shuffle, useInput } from '../utils'
+import { shuffle, useInput, animateCSS } from '../utils'
+import { useDispatch, useSelector } from 'react-redux'
+import { setPlayer } from '../app/actions'
 
-const Start = (props) => {
+const Start = () => {
+	const dispatch = useDispatch()
 	const playerInput = useInput('')
+	const questions = useSelector((state) => state.questionStore)
 
 	const handlePlay = () => {
-		if (playerInput.value !== '') {
+		const inputValue = playerInput.value.replace(/ /g, '')
+		if (questions.length === 0) {
+			animateCSS('#editorButton', 'headShake', 'fast')
+		}
+		if (inputValue === '') {
+			animateCSS('#input', 'headShake', 'fast')
+		}
+		if (inputValue !== '' && questions.length !== 0) {
+			dispatch(setPlayer(inputValue))
 			navigate('/play')
 		}
 	}
@@ -20,6 +32,7 @@ const Start = (props) => {
 			</h1>
 			<div className="max-w-2xl">
 				<InputText
+					id="input"
 					{...playerInput}
 					placeholder={
 						shuffle([
@@ -29,8 +42,13 @@ const Start = (props) => {
 						])[0]
 					}
 				/>
-				<Button onClick={() => handlePlay()}>Play</Button>
-				<Button onClick={() => navigate('/questions')}>
+				<Button id="playButton" onClick={() => handlePlay()}>
+					Play
+				</Button>
+				<Button
+					id="editorButton"
+					onClick={() => navigate('/questions')}
+				>
 					Manage Questions
 				</Button>
 			</div>

@@ -3,20 +3,20 @@ import React from 'react'
 const QuestionListItem = (props) => {
 	return (
 		<div
-			className="flex items-center justify-between p-3 mx-1 my-2 bg-gray-300 rounded-lg"
+			className="flex items-center justify-between p-3 mx-1 my-2 bg-gray-300 rounded-lg animate__animated animate__fadeInUp"
 			onClick={props.onClick}
 		>
 			<div>
-				<p className="text-left text-xl md:text-2xl text-gray-700 font-bold">
+				<p className="text-left text-lg md:text-2xl text-gray-700 font-bold">
 					{props.question}
 				</p>
-				<p className="text-lg m-1 font-bold text-green-600">
+				<p className="text-base md:text-lg m-1 font-bold text-green-600">
 					{props.correct}
 				</p>
 				{props.rest.map((answer, index) => (
 					<p
 						key={index}
-						className="text-lg m-1 italic text-orange-600"
+						className="text-base md:text-lg m-1 italic text-orange-600"
 					>
 						{answer}
 					</p>
