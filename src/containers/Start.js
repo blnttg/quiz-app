@@ -30,7 +30,7 @@ const Start = () => {
 	}
 
 	return (
-		<div className="flex flex-col items-center justify-center w-full h-screen">
+		<div className="flex flex-col items-center justify-center w-full h-screen animate__animated animate__fadeIn animate__faster">
 			<h1 className="text-6xl font-black italic text-purple-700">
 				Quiz!
 			</h1>

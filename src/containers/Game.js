@@ -115,7 +115,7 @@ const Game = () => {
 	}, [])
 
 	return (
-		<div className="flex flex-col items-center justify-center w-full h-screen select-none">
+		<div className="flex flex-col items-center justify-center w-full h-screen select-none animate__animated animate__fadeIn animate__faster">
 			{!firstQuestion && (
 				<GameHeader
 					id="gameHeader"
@@ -126,7 +126,7 @@ const Game = () => {
 			)}
 			<div
 				id="gameArea"
-				className={`flex flex-col items-center justify-center w-full h-auto ${
+				className={`flex flex-col flex-grow items-center justify-center w-full h-auto ${
 					firstQuestion ? 'invisible' : 'visible'
 				}`}
 			>

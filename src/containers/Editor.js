@@ -12,7 +12,7 @@ const Editor = () => {
 	useEffect(() => window.scrollTo(0, 0), [])
 
 	return (
-		<div className="flex flex-col mx-auto w-full max-w-4xl">
+		<div className="flex flex-col mx-auto w-full max-w-4xl animate__animated animate__fadeIn animate__faster">
 			<div className="flex items-center py-2">
 				<BackButton />
 				<h1 className="text-2xl md:text-3xl text-gray-800 font-bold m-1 py-2 px-1">

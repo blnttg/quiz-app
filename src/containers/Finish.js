@@ -13,7 +13,7 @@ const Finish = () => {
 	})
 
 	return (
-		<div className="flex flex-col items-center justify-center mx-auto w-full h-screen max-w-4xl">
+		<div className="flex flex-col items-center justify-center mx-auto w-full h-screen max-w-4xl animate__animated animate__fadeIn animate__faster">
 			<h2 className="text-3xl md:text-4xl text-gray-700 font-bold m-1 py-2 px-1">
 				Game over, <span className="text-purple-600">{player}</span>!
 			</h2>
