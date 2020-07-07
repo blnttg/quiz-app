@@ -137,7 +137,10 @@ const Game = () => {
 						value={questions[questionID].question}
 					/>
 				)}
-				<div id="answers" className="w-5/6 max-w-3xl">
+				<div
+					id="answers"
+					className="flex flex-col items-center w-full px-3 max-w-3xl"
+				>
 					{questions &&
 						questions[questionID] &&
 						questions[questionID].answers.map((value, index) => (
