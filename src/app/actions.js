@@ -1,11 +1,8 @@
 import * as actions from './actionTypes'
-// import { loadState } from '../utils'
-// let questionID = loadState('questionID') || 0
 
 export const addQuestion = (question, correct, rest) => ({
 	type: actions.QUESTION_ADD,
 	payload: {
-		// id: questionID++,
 		question,
 		correct,
 		rest,

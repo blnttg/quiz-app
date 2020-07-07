@@ -3,6 +3,7 @@ import React from 'react'
 const QuestionListItem = (props) => {
 	return (
 		<div
+			id={props.id}
 			className="flex items-center justify-between p-3 mx-1 my-2 bg-gray-300 rounded-lg animate__animated animate__fadeInUp"
 			onClick={props.onClick}
 		>

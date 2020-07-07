@@ -14,7 +14,6 @@ const useInput = (initialValue) => {
 	}
 }
 
-// TODO: form validation (now with headshake animation)
 export const QuestionForm = () => {
 	const dispatch = useDispatch()
 

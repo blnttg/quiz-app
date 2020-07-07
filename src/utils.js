@@ -1,19 +1,5 @@
-// TODO: cleanup
+import { useState, useEffect, useRef } from 'react'
 
-import { useState } from 'react'
-
-export const loadState = (key) => localStorage.getItem(key) || undefined
-
-export const saveState = (key, state) => {
-	try {
-		const serializedState = JSON.stringify(state)
-		localStorage.setItem(key, serializedState)
-	} catch (err) {
-		console.log(err)
-	}
-}
-
-// Fisher-Yates Algorithm
 export const shuffle = (array) => {
 	for (let i = array.length - 1; i > 0; i--) {
 		const j = Math.floor(Math.random() * i)
@@ -33,10 +19,17 @@ export const useInput = (initialValue) => {
 	}
 }
 
+export const usePrevious = (value) => {
+	const ref = useRef()
+	useEffect(() => {
+		ref.current = value
+	})
+	return ref.current
+}
+
 export const animateCSS = (element, animation, duration, delay) => {
 	const prefix = 'animate__'
 
-	// We create a Promise and return it
 	return new Promise((resolve, reject) => {
 		const animationName = `${prefix}${animation}`
 		const animationDuration = `${prefix}${duration}`
@@ -50,9 +43,6 @@ export const animateCSS = (element, animation, duration, delay) => {
 			delay && animationDelay
 		)
 
-		// node.style.setProperty('--animate-delay', `${delay}s`)
-
-		// When the animation ends, we clean the classes and resolve the Promise
 		const handleAnimationEnd = () => {
 			node.classList.remove(`${prefix}animated`, animationName)
 			node.removeEventListener('animationend', handleAnimationEnd)

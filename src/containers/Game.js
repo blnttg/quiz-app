@@ -109,6 +109,7 @@ const Game = () => {
 		if (player !== '' && Array.isArray(questions) && questions.length) {
 			setFirstQuestion(false)
 			dispatch(resetScore())
+			// FIXME: game header animation
 			// animateCSS('#gameHeader', 'slideInDown', 'fast', 1)
 			animateCSS('#question', 'lightSpeedInLeft')
 			animateCSS('#answers', 'fadeIn', null, 2)
@@ -121,7 +122,12 @@ const Game = () => {
 	return (
 		<div className="flex flex-col items-center justify-center w-full h-screen select-none">
 			{!firstQuestion && (
-				<GameHeader id="gameHeader" player={player} score={score} />
+				<GameHeader
+					id="gameHeader"
+					player={player}
+					score={score}
+					completed={((questionID + 1) / questions.length) * 100}
+				/>
 			)}
 			<div
 				id="gameArea"
@@ -135,7 +141,7 @@ const Game = () => {
 						value={questions[questionID].question}
 					/>
 				)}
-				<div id="answers" className="w-5/6 md:w-4/6">
+				<div id="answers" className="w-5/6 max-w-3xl">
 					{questions &&
 						questions[questionID] &&
 						questions[questionID].answers.map((value, index) => (

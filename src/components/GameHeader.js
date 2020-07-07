@@ -1,4 +1,5 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
+import { animateCSS, usePrevious } from '../utils'
 
 const HeaderItem = (props) => {
 	return (
@@ -11,11 +12,38 @@ const HeaderItem = (props) => {
 	)
 }
 
+const ProgressBar = (props) => {
+	const [completed, setCompleted] = useState(props.completed)
+	const prevProgress = usePrevious(props.completed)
+
+	const style = {
+		width: `${completed}%`,
+	}
+
+	useEffect(() => {
+		animateCSS('#progressBar', 'flash', 'fast')
+		// TODO: count up animation
+	}, [props.completed])
+
+	return (
+		<div className="h-2 w-full bg-gray-500 rounded-full">
+			<div
+				id="progressBar"
+				style={style}
+				className="h-2 bg-purple-800 rounded-full"
+			></div>
+		</div>
+	)
+}
+
 const GameHeader = (props) => {
 	return (
-		<div id={props.id} className="flex items-center justify-around">
-			<HeaderItem name="player" value={props.player} />
-			<HeaderItem name="score" value={props.score} />
+		<div id={props.id} className="flex flex-col items-center">
+			<div className="flex items-center justify-around">
+				<HeaderItem name="player" value={props.player} />
+				<HeaderItem name="score" value={props.score} />
+			</div>
+			<ProgressBar completed={props.completed} />
 		</div>
 	)
 }

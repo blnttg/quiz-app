@@ -1,6 +1,5 @@
 import React from 'react'
 
-// TODO: color by correct / wrong
 const Answer = (props) => {
 	return (
 		<div
