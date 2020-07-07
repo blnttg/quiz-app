@@ -53,7 +53,6 @@ export const QuestionForm = () => {
 			resetInputs()
 		} else {
 			animateCSS('#form', 'headShake', 'fast')
-			console.log('shakee')
 		}
 	}
 

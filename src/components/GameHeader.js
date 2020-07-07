@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from 'react'
-import { animateCSS, usePrevious } from '../utils'
+import React, { useEffect } from 'react'
+import { animateCSS } from '../utils'
 
 const HeaderItem = (props) => {
 	return (
@@ -13,16 +13,12 @@ const HeaderItem = (props) => {
 }
 
 const ProgressBar = (props) => {
-	// const [completed, setCompleted] = useState(props.completed)
-	// const prevProgress = usePrevious(props.completed)
-
 	const style = {
 		width: `${props.completed}%`,
 	}
 
 	useEffect(() => {
 		animateCSS('#progressBar', 'flash', 'fast')
-		// TODO: count up animation
 	}, [props.completed])
 
 	return (

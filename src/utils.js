@@ -29,19 +29,6 @@ export const usePrevious = (value) => {
 	})
 	return ref.current
 }
-// TODO: fix this countup
-// const useAnimateValue = (start, end) => {
-// 	const range = end - start
-// 	const [current, setCurrent] = useState(start)
-// 	let stepTime = Math.abs(Math.floor(1000 / range))
-// 	const timer = setInterval(() => {
-// 		setCurrent(current + end > start ? 1 : -1)
-
-// 		if (current === end) {
-// 			clearInterval(timer)
-// 		}
-// 	}, stepTime)
-// }
 
 export const animateCSS = (element, animation, duration, delay) => {
 	const prefix = 'animate__'
