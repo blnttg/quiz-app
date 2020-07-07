@@ -13,10 +13,6 @@ const HeaderItem = (props) => {
 }
 
 const ProgressBar = (props) => {
-	const style = {
-		width: `${props.completed}%`,
-	}
-
 	useEffect(() => {
 		animateCSS('#progressBar', 'flash', 'fast')
 	}, [props.completed])
@@ -25,7 +21,7 @@ const ProgressBar = (props) => {
 		<div className="h-2 w-full bg-gray-500 md:rounded-full">
 			<div
 				id="progressBar"
-				style={style}
+				style={{ width: `${props.completed}%` }}
 				className="h-2 bg-purple-800 md:rounded-full"
 			></div>
 		</div>

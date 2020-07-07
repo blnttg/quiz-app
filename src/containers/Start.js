@@ -1,9 +1,9 @@
 import React from 'react'
+import { useDispatch, useSelector } from 'react-redux'
 import InputText from '../components/InputText'
 import Button from '../components/Button'
 import { navigate } from '@reach/router'
-import { shuffle, useInput, animateCSS, useInputValue } from '../utils'
-import { useDispatch, useSelector } from 'react-redux'
+import { shuffle, animateCSS, useInputValue } from '../utils'
 import { setPlayer } from '../app/actions'
 
 const Start = () => {
@@ -25,6 +25,7 @@ const Start = () => {
 			questions.length !== 0
 		) {
 			dispatch(setPlayer(inputValue))
+			resetPlayerInput()
 			navigate('/play')
 		}
 	}

@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef, useCallback } from 'react'
+import { useState, useEffect, useRef } from 'react'
 
 export const shuffle = (array) => {
 	for (let i = array.length - 1; i > 0; i--) {

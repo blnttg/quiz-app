@@ -1,18 +1,9 @@
-import React, { useState, useEffect } from 'react'
+import React, { useEffect } from 'react'
 import { useDispatch } from 'react-redux'
 import { addQuestion } from '../app/actions'
+import { animateCSS, useInputValue } from '../utils'
 import InputText from '../components/InputText'
 import Button from '../components/Button'
-import { animateCSS, useInputValue } from '../utils'
-
-const useInput = (initialValue) => {
-	const [value, setValue] = useState(initialValue)
-
-	return {
-		value,
-		onChange: (e) => setValue(e.target.value),
-	}
-}
 
 export const QuestionForm = () => {
 	const dispatch = useDispatch()

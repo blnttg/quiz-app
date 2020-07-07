@@ -2,10 +2,10 @@ import React, { useState, useMemo, useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { navigate } from '@reach/router'
 import { addScore, resetScore } from '../app/actions'
+import { animateCSS, shuffle } from '../utils'
 import Question from '../components/Question'
 import Answer from '../components/Answer'
 import Button from '../components/Button'
-import { animateCSS, shuffle } from '../utils'
 import GameHeader from '../components/GameHeader'
 
 const Game = () => {

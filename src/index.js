@@ -1,9 +1,9 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
-import './assets/main.css'
-import 'animate.css'
-import App from './App'
 import { Provider } from 'react-redux'
+import 'animate.css'
+import './assets/main.css'
+import App from './App'
 import store from './app/store'
 
 ReactDOM.render(
