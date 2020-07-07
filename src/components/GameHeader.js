@@ -18,20 +18,20 @@ const ProgressBar = (props) => {
 	const prevProgress = usePrevious(props.completed)
 
 	const style = {
-		width: `${completed}%`,
+		width: `${props.completed}%`,
 	}
 
 	useEffect(() => {
-		// animateCSS('#progressBar', 'flash', 'fast')
+		animateCSS('#progressBar', 'flash', 'fast')
 		// TODO: count up animation
-	}, [])
+	}, [props.completed])
 
 	return (
-		<div className="h-2 w-full bg-gray-500 rounded-full">
+		<div className="h-2 w-full bg-gray-500 md:rounded-full">
 			<div
 				id="progressBar"
 				style={style}
-				className="h-2 bg-purple-800 rounded-full"
+				className="h-2 bg-purple-800 md:rounded-full"
 			></div>
 		</div>
 	)
@@ -41,7 +41,7 @@ const GameHeader = (props) => {
 	return (
 		<div
 			id={props.id}
-			className="flex flex-col items-center animate__animated animate__slideInDown animate__fast animate__delay-1s"
+			className="flex flex-col-reverse md:flex-col items-center animate__animated animate__slideInDown animate__fast animate__delay-1s"
 		>
 			<div className="flex items-center justify-around">
 				<HeaderItem name="player" value={props.player} />
