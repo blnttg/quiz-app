@@ -12,6 +12,7 @@ const HeaderItem = (props) => {
 	)
 }
 
+// FIXME: fix progress bar
 const ProgressBar = (props) => {
 	const [completed, setCompleted] = useState(props.completed)
 	const prevProgress = usePrevious(props.completed)
@@ -21,9 +22,9 @@ const ProgressBar = (props) => {
 	}
 
 	useEffect(() => {
-		animateCSS('#progressBar', 'flash', 'fast')
+		// animateCSS('#progressBar', 'flash', 'fast')
 		// TODO: count up animation
-	}, [props.completed])
+	}, [])
 
 	return (
 		<div className="h-2 w-full bg-gray-500 rounded-full">
@@ -38,7 +39,10 @@ const ProgressBar = (props) => {
 
 const GameHeader = (props) => {
 	return (
-		<div id={props.id} className="flex flex-col items-center">
+		<div
+			id={props.id}
+			className="flex flex-col items-center animate__animated animate__slideInDown animate__fast animate__delay-1s"
+		>
 			<div className="flex items-center justify-around">
 				<HeaderItem name="player" value={props.player} />
 				<HeaderItem name="score" value={props.score} />

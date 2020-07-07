@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { useDispatch } from 'react-redux'
 import { addQuestion } from '../app/actions'
 import InputText from '../components/InputText'
@@ -23,6 +23,11 @@ export const QuestionForm = () => {
 	const wrongAnswer2Input = useInput('')
 	const wrongAnswer3Input = useInput('')
 
+	// TODO: reset values after submit
+	const resetInputs = () => {
+		questionInput.resetValue()
+	}
+
 	const handleAddQuestion = () => {
 		const answers = [
 			correctAnswerInput.value,
@@ -30,21 +35,28 @@ export const QuestionForm = () => {
 			wrongAnswer2Input.value,
 			wrongAnswer3Input.value,
 		]
-		console.log('handling')
-		if (questionInput.value !== '' && !answers.includes('')) {
-			console.log('added')
+		if (
+			questionInput.value !== '' &&
+			!answers.includes('') &&
+			new Set(answers).size === answers.length
+		) {
 			dispatch(
 				addQuestion(
 					questionInput.value,
-					answers[0],
+					correctAnswerInput.value,
 					answers.slice(1, answers.length)
 				)
 			)
-			questionInput.value = ''
+			// resetValue()
+			// questionInput.resetValue()
+			// resetInputs()
 		} else {
 			animateCSS('#form', 'headShake', 'fast')
+			console.log('shakee')
 		}
 	}
+
+	useEffect(() => animateCSS('#form', 'bounceInUp', 'fast', 1), [])
 
 	return (
 		<div
@@ -55,7 +67,7 @@ export const QuestionForm = () => {
 				Add a new question!
 			</h2>
 			<InputText label="Question" {...questionInput} />
-			<div className="w-2/5">
+			<div className="w-full md:w-2/5">
 				<InputText label="Correct Answer" {...correctAnswerInput} />
 				<InputText label="Wrong Answer #1" {...wrongAnswer1Input} />
 				<InputText label="Wrong Answer #2" {...wrongAnswer2Input} />

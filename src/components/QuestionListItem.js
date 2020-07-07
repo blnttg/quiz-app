@@ -1,10 +1,15 @@
 import React from 'react'
+import { animateCSS } from '../utils'
 
 const QuestionListItem = (props) => {
+	const handleDelete = () => {
+		animateCSS(`#${props.id}`, 'backOutRight').then(() => props.onDelete())
+	}
+
 	return (
 		<div
 			id={props.id}
-			className="flex items-center justify-between p-3 mx-1 my-2 bg-gray-300 rounded-lg animate__animated animate__fadeInUp"
+			className="flex items-center justify-between p-3 mx-1 my-2 bg-gray-300 rounded-lg animate__animated animate__backInLeft animate__fast"
 			onClick={props.onClick}
 		>
 			<div>
@@ -23,7 +28,7 @@ const QuestionListItem = (props) => {
 					</p>
 				))}
 			</div>
-			<button onClick={props.onDelete}>
+			<button onClick={() => handleDelete()}>
 				<svg
 					xmlns="http://www.w3.org/2000/svg"
 					viewBox="0 0 24 24"

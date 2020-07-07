@@ -1,19 +1,15 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { removeQuestion } from '../app/actions'
 import QuestionListItem from '../components/QuestionListItem'
 import { QuestionForm } from './QuestionForm'
 import BackButton from '../components/BackButton'
-import { animateCSS } from '../utils'
 
 const Editor = () => {
 	const questions = useSelector((state) => state.questionStore)
 	const dispatch = useDispatch()
 
-	const handleDelete = (id) =>
-		animateCSS(`#id-${id}`, 'backOutRight', null, 2).then(
-			dispatch(removeQuestion(id))
-		)
+	useEffect(() => window.scrollTo(0, 0), [])
 
 	return (
 		<div className="flex flex-col mx-auto w-full max-w-4xl">
@@ -33,7 +29,7 @@ const Editor = () => {
 						rest={question.answers.filter(
 							(q) => q !== question.correct
 						)}
-						onDelete={() => handleDelete(question.id)}
+						onDelete={() => dispatch(removeQuestion(question.id))}
 					/>
 				)
 			})}

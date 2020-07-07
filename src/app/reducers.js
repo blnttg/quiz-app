@@ -25,9 +25,7 @@ const gameInitialState = {
 		player: '',
 		score: 0,
 	},
-	// leaderboard: [],
 }
-// TODO: implement leaderboard / highscore saving (optional)
 export const gameReducer = (state = gameInitialState, action) => {
 	switch (action.type) {
 		case actions.SET_PLAYER:

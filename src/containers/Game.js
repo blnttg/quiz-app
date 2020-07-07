@@ -9,11 +9,9 @@ import { animateCSS, shuffle } from '../utils'
 import GameHeader from '../components/GameHeader'
 
 // TODO: clean up the code
-// TODO: save highscore (optional)
 const Game = () => {
 	const { score, player } = useSelector((state) => state.gameStore.current)
 	const _questions = useSelector((state) => state.questionStore)
-
 	const questions = useMemo(
 		() =>
 			shuffle(
@@ -92,6 +90,7 @@ const Game = () => {
 	const handleNextMove = () => {
 		animateCSS('#gameArea', 'fadeOut', 'faster')
 		setAnswered(false)
+		toggleDisableHover('#answers', answered)
 
 		if (questionID < questions.length - 1) {
 			resetCorrectAndWrongAnswers('#answers')
@@ -102,15 +101,12 @@ const Game = () => {
 			navigate('/finish')
 			setAnswered(true)
 		}
-		toggleDisableHover('#answers', answered)
 	}
 
 	useEffect(() => {
 		if (player !== '' && Array.isArray(questions) && questions.length) {
 			setFirstQuestion(false)
 			dispatch(resetScore())
-			// FIXME: game header animation
-			// animateCSS('#gameHeader', 'slideInDown', 'fast', 1)
 			animateCSS('#question', 'lightSpeedInLeft')
 			animateCSS('#answers', 'fadeIn', null, 2)
 		} else {

@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react'
+import { useState, useEffect, useRef, useCallback } from 'react'
 
 export const shuffle = (array) => {
 	for (let i = array.length - 1; i > 0; i--) {
@@ -16,6 +16,7 @@ export const useInput = (initialValue) => {
 	return {
 		value,
 		onChange: (e) => setValue(e.target.value),
+		resetValue: () => setValue(initialValue || ''),
 	}
 }
 
@@ -26,6 +27,19 @@ export const usePrevious = (value) => {
 	})
 	return ref.current
 }
+// TODO: fix this
+// const useAnimateValue = (start, end) => {
+// 	const range = end - start
+// 	const [current, setCurrent] = useState(start)
+// 	let stepTime = Math.abs(Math.floor(1000 / range))
+// 	const timer = setInterval(() => {
+// 		setCurrent(current + end > start ? 1 : -1)
+
+// 		if (current === end) {
+// 			clearInterval(timer)
+// 		}
+// 	}, stepTime)
+// }
 
 export const animateCSS = (element, animation, duration, delay) => {
 	const prefix = 'animate__'
@@ -44,7 +58,12 @@ export const animateCSS = (element, animation, duration, delay) => {
 		)
 
 		const handleAnimationEnd = () => {
-			node.classList.remove(`${prefix}animated`, animationName)
+			node.classList.remove(
+				`${prefix}animated`,
+				animationName,
+				animationDuration,
+				animationDelay
+			)
 			node.removeEventListener('animationend', handleAnimationEnd)
 
 			resolve('Animation ended')

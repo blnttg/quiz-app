@@ -16,10 +16,14 @@ const Start = () => {
 		if (questions.length === 0) {
 			animateCSS('#editorButton', 'headShake', 'fast')
 		}
-		if (inputValue === '') {
+		if (inputValue === '' || inputValue.length > 16) {
 			animateCSS('#input', 'headShake', 'fast')
 		}
-		if (inputValue !== '' && questions.length !== 0) {
+		if (
+			inputValue !== '' &&
+			inputValue.length <= 16 &&
+			questions.length !== 0
+		) {
 			dispatch(setPlayer(inputValue))
 			navigate('/play')
 		}
@@ -34,6 +38,7 @@ const Start = () => {
 				<InputText
 					id="input"
 					{...playerInput}
+					// TODO: replace or delete placeholder
 					placeholder={
 						shuffle([
 							'your awesome name',
