@@ -38,12 +38,11 @@ const Start = () => {
 				<InputText
 					id="input"
 					{...playerInput}
-					// TODO: replace or delete placeholder
 					placeholder={
 						shuffle([
-							'your awesome name',
-							'the best name ever',
-							'just type some letters here',
+							'your beautiful name',
+							'the best nickname',
+							'an awesome name',
 						])[0]
 					}
 				/>

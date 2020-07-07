@@ -12,10 +12,9 @@ const HeaderItem = (props) => {
 	)
 }
 
-// FIXME: fix progress bar
 const ProgressBar = (props) => {
-	const [completed, setCompleted] = useState(props.completed)
-	const prevProgress = usePrevious(props.completed)
+	// const [completed, setCompleted] = useState(props.completed)
+	// const prevProgress = usePrevious(props.completed)
 
 	const style = {
 		width: `${props.completed}%`,

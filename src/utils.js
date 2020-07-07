@@ -29,7 +29,7 @@ export const usePrevious = (value) => {
 	})
 	return ref.current
 }
-// TODO: fix this
+// TODO: fix this countup
 // const useAnimateValue = (start, end) => {
 // 	const range = end - start
 // 	const [current, setCurrent] = useState(start)

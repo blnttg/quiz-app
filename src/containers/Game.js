@@ -8,7 +8,6 @@ import Button from '../components/Button'
 import { animateCSS, shuffle } from '../utils'
 import GameHeader from '../components/GameHeader'
 
-// TODO: clean up the code
 const Game = () => {
 	const { score, player } = useSelector((state) => state.gameStore.current)
 	const _questions = useSelector((state) => state.questionStore)
