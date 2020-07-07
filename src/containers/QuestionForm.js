@@ -32,7 +32,7 @@ export const QuestionForm = () => {
 			wrongAnswer3Input.value,
 		]
 		console.log('handling')
-		if (!answers.includes('')) {
+		if (questionInput.value !== '' && !answers.includes('')) {
 			console.log('added')
 			dispatch(
 				addQuestion(
