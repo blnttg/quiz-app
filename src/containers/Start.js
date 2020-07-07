@@ -2,13 +2,13 @@ import React from 'react'
 import InputText from '../components/InputText'
 import Button from '../components/Button'
 import { navigate } from '@reach/router'
-import { shuffle, useInput, animateCSS } from '../utils'
+import { shuffle, useInput, animateCSS, useInputValue } from '../utils'
 import { useDispatch, useSelector } from 'react-redux'
 import { setPlayer } from '../app/actions'
 
 const Start = () => {
 	const dispatch = useDispatch()
-	const playerInput = useInput('')
+	const [playerInput, resetPlayerInput] = useInputValue('')
 	const questions = useSelector((state) => state.questionStore)
 
 	const handlePlay = () => {

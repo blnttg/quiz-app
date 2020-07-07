@@ -3,7 +3,7 @@ import { useDispatch } from 'react-redux'
 import { addQuestion } from '../app/actions'
 import InputText from '../components/InputText'
 import Button from '../components/Button'
-import { animateCSS } from '../utils'
+import { animateCSS, useInputValue } from '../utils'
 
 const useInput = (initialValue) => {
 	const [value, setValue] = useState(initialValue)
@@ -17,15 +17,18 @@ const useInput = (initialValue) => {
 export const QuestionForm = () => {
 	const dispatch = useDispatch()
 
-	const questionInput = useInput('')
-	const correctAnswerInput = useInput('')
-	const wrongAnswer1Input = useInput('')
-	const wrongAnswer2Input = useInput('')
-	const wrongAnswer3Input = useInput('')
+	const [questionInput, resetQuestionInput] = useInputValue('')
+	const [correctAnswerInput, resetCorrectAnswerInput] = useInputValue('')
+	const [wrongAnswer1Input, resetWrongAnswer1Input] = useInputValue('')
+	const [wrongAnswer2Input, resetWrongAnswer2Input] = useInputValue('')
+	const [wrongAnswer3Input, resetWrongAnswer3Input] = useInputValue('')
 
-	// TODO: reset values after submit
 	const resetInputs = () => {
-		questionInput.resetValue()
+		resetQuestionInput()
+		resetCorrectAnswerInput()
+		resetWrongAnswer1Input()
+		resetWrongAnswer2Input()
+		resetWrongAnswer3Input()
 	}
 
 	const handleAddQuestion = () => {
@@ -47,16 +50,15 @@ export const QuestionForm = () => {
 					answers.slice(1, answers.length)
 				)
 			)
-			// resetValue()
-			// questionInput.resetValue()
-			// resetInputs()
+			resetInputs()
 		} else {
 			animateCSS('#form', 'headShake', 'fast')
 			console.log('shakee')
 		}
 	}
 
-	useEffect(() => animateCSS('#form', 'bounceInUp', 'fast', 1), [])
+	// FIXME
+	// useEffect(() => animateCSS('#form', 'bounceInUp', 'fast', 1), [])
 
 	return (
 		<div

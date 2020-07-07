@@ -10,14 +10,16 @@ export const shuffle = (array) => {
 	return array
 }
 
-export const useInput = (initialValue) => {
+export const useInputValue = (initialValue) => {
 	const [value, setValue] = useState(initialValue)
 
-	return {
+	const bind = {
 		value,
 		onChange: (e) => setValue(e.target.value),
-		resetValue: () => setValue(initialValue || ''),
 	}
+	const resetValue = () => setValue(initialValue || '')
+
+	return [bind, resetValue]
 }
 
 export const usePrevious = (value) => {
