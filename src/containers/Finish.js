@@ -3,7 +3,6 @@ import { useSelector } from 'react-redux'
 import { navigate } from '@reach/router'
 import Button from '../components/Button'
 
-// TODO: design, back to home button
 const Finish = () => {
 	const { player, score } = useSelector((state) => state.gameStore.current)
 

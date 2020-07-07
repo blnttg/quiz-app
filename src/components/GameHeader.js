@@ -40,7 +40,7 @@ const GameHeader = (props) => {
 	return (
 		<div
 			id={props.id}
-			className="flex flex-col-reverse md:flex-col w-full md:w-auto items-center animate__animated animate__slideInDown animate__fast animate__delay-1s"
+			className="absolute top-0 flex flex-col-reverse md:flex-col w-full md:w-auto items-center animate__animated animate__slideInDown animate__fast animate__delay-1s"
 		>
 			<div className="flex items-center justify-around">
 				<HeaderItem name="player" value={props.player} />

@@ -126,7 +126,7 @@ const Game = () => {
 			)}
 			<div
 				id="gameArea"
-				className={`flex flex-col items-center justify-center w-full h-full ${
+				className={`flex flex-col items-center justify-center w-full h-auto ${
 					firstQuestion ? 'invisible' : 'visible'
 				}`}
 			>
